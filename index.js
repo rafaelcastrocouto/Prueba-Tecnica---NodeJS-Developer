@@ -33,10 +33,6 @@ const getIndicators = (indicator, date, cb) => {
   return new Promise(resolve => {
     const req = unirest('GET', 'https://mindicador.cl/api/'+indicator+'/'+date);
 
-    req.headers({
-      'Content-Type': 'application/JSON'
-    });
-
     req.end((res) => {
       if (res.error) throw new Error(res.error);
       resolve(res.body);

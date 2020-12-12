@@ -10,8 +10,6 @@ A continuación se detalla diagrama de secuencia de alto nivel que detalla la si
 
 ![swagger.yaml](swagger.yaml)
 
-
-
 ## Informacion de APIS a integrar.
 
 La siguiente información de las apis a integrar que se detallan a continuación.
@@ -21,7 +19,7 @@ La siguiente información de las apis a integrar que se detallan a continuación
 curl --request GET \
 	--url 'https://currency26.p.rapidapi.com/convert/USD/CLP/1' \
 	--header 'x-rapidapi-host: currency26.p.rapidapi.com' \
-	--header 'x-rapidapi-key: 3e145c02a5mshd5aa02a0558e374p164099jsn355af2542355'
+	--header 'x-rapidapi-key: API-KEY'
 ```
 
 ```json
