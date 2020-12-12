@@ -1,16 +1,26 @@
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 const express = require('express');
 const unirest = require('unirest');
-const app = express();
+const mongo = require('./mongo.js');
 
 /* TODO:
 ☑ get currency26
 ☑ get mindicador
-☐ mongodb cache
+☑ mongodb cache
 ☐ retries timeout
 ☐ invalid 400
 ☑ JSON response
 */
+
+const app = express();
+
+mongo.start(() => {
+  mongo.get('cache', (data) => {
+    console.log('db cache loaded');
+  });
+});
 
 const getCurrency = () => {
   return new Promise(resolve => {
@@ -44,20 +54,26 @@ app.get('/', async (req, res) => {
 
   const date = new Date().toLocaleDateString('pt').replace(/\//g,'-');
 
-  const currency = await getCurrency();
-  const uf = await getIndicators('uf', date);
-  const utm = await getIndicators('utm', date);
+  if (!mongo.data[date]) {
+    const currency = await getCurrency();
+    const uf = await getIndicators('uf', date);
+    const utm = await getIndicators('utm', date);
 
-  const data = {
-    'date': date, // date or serie[0].fecha ???
-    'indicators': {
-      'dollar': currency.vl,
-      'uf': uf.serie[0].valor,
-      'utm': utm.serie[0].valor
-    }
+    mongo.data[date] = {
+      'date': date, // date or serie[0].fecha ???
+      'indicators': {
+        'dollar': currency.vl,
+        'uf': uf.serie[0].valor,
+        'utm': utm.serie[0].valor
+      }
+    };
+
+    mongo.set('cache', mongo.data, () => {
+      console.log('data saved to db cache')
+    });
   }
-  
-  res.send(JSON.stringify(data));
+
+  res.send(JSON.stringify(mongo.data[date]));
 });
 
 app.listen(3000, () => {
