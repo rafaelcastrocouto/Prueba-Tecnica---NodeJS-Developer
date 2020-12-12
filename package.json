@@ -1,0 +1,17 @@
+{
+  "name": "Prueba-Tecnica-NodeJS-Developer",
+  "version": "1.0.0",
+  "description": "Crear un microservicio  en el cual internamente se integrará con APIs de dolar, uf y utm del día actual.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "unirest": "^0.6.0"
+  }
+}

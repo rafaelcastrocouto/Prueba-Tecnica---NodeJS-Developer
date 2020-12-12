@@ -1,0 +1,67 @@
+openapi: 3.0.2
+servers:
+  - description: SpringBoot Server Dev
+    url: http://localhost.com/bideafactory
+info:
+  description: Indicadores Financieros API
+  version: 1.0.0
+  title: OTTAPI
+tags:
+  - name: IndicadoresFinancieros
+    description: Indicadores Financieros Group
+paths:
+  /indicadoreshoy:
+    get:
+      tags:
+        - IndicadoresFinancieros
+      summary: Muestra información del dolar, UF y UTM del día actual.
+      responses:
+        '200':
+          description: Retorna información de indicadores financieros
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IndicadoresResponse'
+        '400':
+          description: Request Invalido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    IndicadoresResponse:
+      required: 
+        - "date"
+        - "indicators"
+      properties: 
+        date: 
+          type: "string"
+          example: "2020-05-01"
+        indicators: 
+          required: 
+            - "dolar"
+            - "uf"
+            - "utm"
+          properties: 
+            dolar: 
+              type: "number"
+              example: 838.74
+            uf: 
+              type: "number"
+              example: 28705.05
+            utm: 
+              type: "number"
+              example: 50372
+          type: "object"
+    ErrorResponse:
+      required: 
+        - "code"
+        - "message"
+      properties: 
+        code: 
+          type: "number"
+          example: 400
+        message: 
+          type: "string"
+          example: "Invalid request"
